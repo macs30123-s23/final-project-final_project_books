@@ -21,7 +21,8 @@ def search_books(subject, start_index):
         "q": "",
         "key": api_key,
         "printType": "books",
-        "startIndex": start_index
+        "startIndex": start_index,
+        "maxResults": 40
     }
     books = []
     parameters["q"] = f"categories:{subject}"
@@ -31,7 +32,6 @@ def search_books(subject, start_index):
         books.extend(results["items"])
     else:
         print(f"Failed to fetch results for subject {subject} at star index {start_index}.")
-
     
     return books
 
@@ -55,16 +55,15 @@ def store_books_in_db(books):
             'description': book['volumeInfo']['description'] if 'description' in book['volumeInfo'] else None,
             'categories': book['volumeInfo']['categories'] if 'categories' in book['volumeInfo'] else None,
         }
-        # book_id: unique identifier for a specific volume in Google Books API, like "9bnyDwAAQBAJ"
         table.upsert({'book_id': book['id'], 'book_info': json.dumps(book_info)}, ['book_id']) 
 
 
 def lambda_handler(event, context):
-    print('event is ', event)
-    for batch in event['book']:
-        subject = batch['subject']
-        start_index = batch['start_index']
+    books_batches = event['book']
 
+    for batch in books_batches:
+        subject = batch[0]
+        start_index = batch[1]
         books = search_books(subject, start_index)
         store_books_in_db(books)
 
