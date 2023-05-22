@@ -3,7 +3,7 @@ import dataset
 import json
 import requests
 
-api_key = 'AIzaSyBgPYASTWnKJfz_eNzjuywNHMUt6cZV2xY' # Google Books API key
+api_key = 'AIzaSyArAf3y7EgzHVUycNy7hE7_5bUm_BNKoyU'
 rds = boto3.client('rds')
 db_rds = rds.describe_db_instances()['DBInstances'][0]
 ENDPOINT = db_rds['Endpoint']['Address']
@@ -18,20 +18,27 @@ db = dataset.connect(db_url)
 def search_books(subject, start_index):
     url = "https://www.googleapis.com/books/v1/volumes"
     parameters = {
-        "q": "",
+        "q": subject,
         "key": api_key,
         "printType": "books",
-        "startIndex": start_index,
-        "maxResults": 40
+        "maxResults": 40,
+        "startIndex": start_index
     }
     books = []
-    parameters["q"] = f"categories:{subject}"
-    response = requests.get(url, params=parameters)
+    
+    while True:
+        try:
+            response = requests.get(url, params=parameters)
+            break
+        except:
+            continue
+    
     if response.status_code == 200:
         results = json.loads(response.content)
         books.extend(results["items"])
     else:
-        print(f"Failed to fetch results for subject {subject} at star index {start_index}.")
+        print(response)
+        print(f"Failed to fetch results for subject {subject} at start index {start_index}.")
     
     return books
 
@@ -60,14 +67,11 @@ def store_books_in_db(books):
 
 def lambda_handler(event, context):
     books_batches = event['book']
+    subject = books_batches[0]
+    start_index = books_batches[1]
+    books = search_books(subject, start_index)
+    store_books_in_db(books)
 
-    for batch in books_batches:
-        subject = batch[0]
-        start_index = batch[1]
-        books = search_books(subject, start_index)
-        store_books_in_db(books)
-
-    db.close()
 
 
 
