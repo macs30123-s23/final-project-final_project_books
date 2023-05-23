@@ -3,7 +3,7 @@ import dataset
 import json
 import requests
 
-api_key = 'AIzaSyArAf3y7EgzHVUycNy7hE7_5bUm_BNKoyU'
+api_key = 'AIzaSyBgPYASTWnKJfz_eNzjuywNHMUt6cZV2xY'
 rds = boto3.client('rds')
 db_rds = rds.describe_db_instances()['DBInstances'][0]
 ENDPOINT = db_rds['Endpoint']['Address']
@@ -61,8 +61,12 @@ def store_books_in_db(books):
             'published_date': book['volumeInfo']['publishedDate'] if 'publishedDate' in book['volumeInfo'] else None,
             'description': book['volumeInfo']['description'] if 'description' in book['volumeInfo'] else None,
             'categories': book['volumeInfo']['categories'] if 'categories' in book['volumeInfo'] else None,
+            'imageLinks': book['volumeInfo']['imageLinks'] if 'imageLinks' in book['volumeInfo'] else None
         }
-        table.upsert({'book_id': book['id'], 'book_info': json.dumps(book_info)}, ['book_id']) 
+
+        existing_book = table.find_one(book_id=book['id'])
+        if not existing_book:
+            table.upsert({'book_id': book['id'], 'book_info': json.dumps(book_info)}, ['book_id']) 
 
 
 def lambda_handler(event, context):
