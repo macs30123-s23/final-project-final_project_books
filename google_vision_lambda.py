@@ -8,11 +8,13 @@ from the original parquet.
 """
 
 import os
+import boto3
 import json
 import requests
 from google.cloud import vision
 
 API_KEY = 'AIzaSyCTtwcZvAV4y-gE3I6gaz61h1ziLhDxQu8'
+s3 = boto3.client('s3')
 client = vision.ImageAnnotatorClient(client_options={"api_key": API_KEY})
 
 def lambda_handler(event, context):
@@ -24,6 +26,18 @@ def lambda_handler(event, context):
             byte_image = response.content
             image = vision.Image(content=byte_image)
             response = client.label_detection(image=image, max_results=50)
+            key = image_label + '.json'
+            output = dict()
+            output['id'] = image_label
+            output['response'] = response
+            output_json = json.dumps(output)
+
+            s3.put_object(
+                Body=output_json,
+                Bucket='image-annotate-output',
+                Key=key
+            )
+            
     except Exception as e:
         print(e)
 
