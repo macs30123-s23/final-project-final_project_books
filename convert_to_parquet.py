@@ -35,6 +35,7 @@ if __name__ == '__main__':
                     'imageLinks.smallThumbnail', 'imageLinks.thumbnail']
     final_df[cols_to_string] = final_df[cols_to_string].astype(str)
     final_df['categories'] = final_df['categories'].str.replace("\\['", "").str.replace("\\']", "")
+    final_df['description'] = final_df['description'].str.replace("\\“", "").str.replace("\\”", "")
 
     # Extract year from 'published_date' and convert to int
     final_df['published_date'] = final_df['published_date'].str.extract('(\d{4})', expand=False).astype('Int64')
