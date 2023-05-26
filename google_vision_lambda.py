@@ -29,7 +29,7 @@ def lambda_handler(event, context):
             key = image_label + '.json'
             output = dict()
             output['id'] = image_label
-            output['response'] = response
+            output['response'] = [label.description for label in response.label_annotations] 
             output_json = json.dumps(output)
 
             s3.put_object(
