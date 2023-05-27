@@ -99,7 +99,24 @@ def lambda_handler(event, context):
 
 
 
-# 2. Machine Learning
+# 2. Multiclass Prediction 
+This part of the project is focused on predicting the category of a book based on its description using machine learning techniques. It utilizes the dataset mentioned, and employs a Natural Language Processing (NLP) pipeline in conjunction with logistic regression for the text classification task.
+
+The NLP pipeline consists of several steps:
+
+1. Document assembly: converting raw input into usable text data
+2. Tokenization: breaking down the text into individual words (tokens)
+3. Stopword removal: eliminating common words that don't provide valuable information
+4. Lemmatization: reducing words to their base or root form (e.g., "running" to "run")
+5, Count Vectorization: converting the processed text data into a numerical representation that machine learning algorithms can understand
+
+The processed data is then fed into a logistic regression model, a common method for text classification tasks. The model is trained to predict the book category based on the processed description. The most predictive words for each category are extracted from the model, providing insight into the words that heavily influence the classification into each category.
+
+This project showcases the power and scalability of Apache Spark in handling large-scale text data and implementing machine learning algorithms efficiently. The script uses PySpark, a Python library for Spark programming, to build and run the NLP pipeline and logistic regression model.
+
+The output of this project includes the logistic regression model and a list of the most predictive words for each category. These words are presented along with their coefficients, which represent their influence on the prediction of each category.
+
+This project could be of particular interest to researchers, data scientists, or businesses in the publishing industry seeking to understand and predict book categories based on descriptions, or to anyone interested in text classification and natural language processing.
 
 # 3. Natural Language Processing
 
