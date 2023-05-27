@@ -9,6 +9,7 @@ The task of scraping social science related books using the Google Books API car
 
 Work Distribution
 # 1. Scalable Data Scraping
+The lambda function can be found [here](https://github.com/macs30123-s23/final-project-final_project_books/blob/main/scraper_lambda.py) and the jupyter notebook on scraping can be found [here](https://github.com/macs30123-s23/final-project-final_project_books/blob/main/scrape_book.ipynb)
 1. Create an open source RDS database using ```'IpRanges': [{'CidrIp': '0.0.0.0/0'}]```
 2. After creating a Google Cloud Account and a Google Cloud project specified by Google Books API, we can start our scraping process
 3. Sppecifically, we perform a volumes search by sending an HTTP GET request to the following URI ```https://www.googleapis.com/books/v1/volumes?q=search+terms```
