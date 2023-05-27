@@ -10,7 +10,7 @@ The task of scraping social science related books using the Google Books API car
 # Work Distribution
 - April Wang: Collected data using Google Books API, parallelized with AWS lambda function and step function, stored book information in AWS RDS table
 - Violet Huang: Cleaned Data, performed supervised machine learning prediction task, generate Roberta sentence embedding
-- Ryan Leung: Cleaned Data, employed natural language processing with BERT topic, applied computer vision with Google Cloud API to book cover
+- Ryan Liang: Cleaned Data, employed natural language processing with BERT topic, applied computer vision with Google Cloud API to book cover
 
 # 1. Scalable Data Scraping
 The lambda function can be found [here](https://github.com/macs30123-s23/final-project-final_project_books/blob/main/scraper_lambda.py) and the jupyter notebook on scraping can be found [here](https://github.com/macs30123-s23/final-project-final_project_books/blob/main/scrape_book.ipynb)
