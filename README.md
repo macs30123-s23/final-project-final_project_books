@@ -126,10 +126,24 @@ The output of this project includes the logistic regression model and a list of 
 This project could be of particular interest to researchers, data scientists, or businesses in the publishing industry seeking to understand and predict book categories based on descriptions, or to anyone interested in text classification and natural language processing.
 
 # 3. Natural Language Processing
+The purpose of this step is to use the BERTopic (https://github.com/MaartenGr/BERTopic) as the method to explore the topics in the  in unsupervised scheme. Compared with the original BERTopic implementation, my implementation 
+
+A common BERTopic workflow consists of these three steps:
+- Transfer learning with BERT-class models to generate (sentence) embeddings for each entry of corpus.
+- Dimension Reduction of the embedding vectors with PCA, t-SNE or UMAP to prepare for clustering.
+- Clustering with algorithms as K-Means, DBSCAN, HDBSCAN depending on the research purpose. For this project, I choose to use hierarchical clustering algorithm, as I want low tolerance of meaningless clusters.
+
+The common bottleneck of BERTopic in my experience is in the steps of dimension reduction (often with UMAP), and clustering (hierarchical clustering with HDBSCAN in the use case of this project). When the size data entries is large (>100K), with the large size of dimensions of input embedding vectors (512), computation time of these two steps deteriorate. That was because in the original code, these vector calculations are serialized.
+
+Therefore, for these free steps, I deploy different strategies to speedup with scalable operations:
+ - Transfer learning embedding generation with SparkNLP
+ - Dimension reduction and hierarchical clustering with GPU speedup with cuML, as they are vector calculations.
+
+The code workflow and the results are shown in the notebook [BERTopic with SparkML and cuML.ipynb](https://github.com/macs30123-s23/final-project-final_project_books/blob/main/BERTopic%20with%20SparkML%20and%20cuML.ipynb). As the result, the HDBSCAN clustering generated 8 valid clusters for 3K entries in the valid size of data entries of 7K, which is a nature of hierarchical clustering. The clustering results are presented by the ranking if "important words" in the clusters with the highest TF-IDF scores.
 
 # 4. Computer Vision
-The code of this step is in [Google Vision API Cover  Analysis.ipynb](https://github.com/macs30123-s23/final-project-final_project_books/blob/main/Google%20Vision%20API%20Cover%20%20Analysis.ipynb). This step we did a computer vision analysis on the covers of the book metadata with Google Cloud Vision API. With the API call of [AnnotateImageRequest](https://cloud.google.com/vision/docs/reference/rest/v1/AnnotateImageRequest), we can have a list of the recognized objects within the book cover by the cloud-based image recognition model. This step is parallelized by AWS Lambda function.
+The code of this step is in [Google Vision API Cover  Analysis.ipynb](https://github.com/macs30123-s23/final-project-final_project_books/blob/main/Google%20Vision%20API%20Cover%20%20Analysis.ipynb). This step we did a computer vision analysis on the covers of the book metadata with Google Cloud Vision API. With the API call of [AnnotateImageRequest](https://cloud.google.com/vision/docs/reference/rest/v1/AnnotateImageRequest), we can have a list of the recognized objects within the book cover by the cloud-based image recognition model. This step is parallelized by AWS Lambda function. Corresponding Lambda function code is in the file of [google_vision_lambda.py](https://github.com/macs30123-s23/final-project-final_project_books/blob/main/google_vision_lambda.py).
 
-In order to analyze the design patterns over the social science literatures, we can use a different way to interpret the visual elements. We can interpret the cover as a "documents" that are consisted of design elements as "words". In this way, we can perform an LDA analysis, to explore what are the clusters of design patterns over our scraped books. The LDA is parallelized with multicore with the python package gensim.
+In order to analyze the design patterns over the social science literatures, we can use a different way to interpret the visual elements. We can interpret the cover as a "documents" that are consisted of design elements as "words". In this way, we can perform an LDA analysis, to explore what are the clusters of design patterns over our scraped books. I filter the design elements that exists over 80% of books or with frequency less than 2. The number of LDA topics is set at 10 for convenience. The LDA is parallelized with multicore with the python package gensim, and its topic modelling results are shown in the notebook.
 
 The interactive pattern analysis LDA is provided in the file of [Google Vision API Cover  Analysis.html](https://github.com/macs30123-s23/final-project-final_project_books/blob/main/Google%20Vision%20API%20Cover%20%20Analysis.html).
