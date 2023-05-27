@@ -102,6 +102,8 @@ def lambda_handler(event, context):
 # 2. Multiclass Prediction 
 This part of the project is focused on predicting the category of a book based on its description using machine learning techniques. It utilizes the dataset mentioned, and employs a Natural Language Processing (NLP) pipeline in conjunction with logistic regression for the text classification task.
 
+The dataset is first processed to create a balanced distribution for each category. Categories with less than 100 books are discarded. The remaining categories are then down-sampled or upsampled to create a dataset with 300 books for each category. Categories include: Medical, Religion, Psychology, Political Science, Social Science, Science, Literary Criticism, Education, Fiction, History, Law, Language Arts & Disciplines, Philosophy, Biography & Autobiography, Business & Economics
+
 The NLP pipeline consists of several steps:
 
 1. Document assembly: converting raw input into usable text data
