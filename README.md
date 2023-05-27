@@ -3,6 +3,10 @@ final-project-final_project_books created by GitHub Classroom
 
 Group Member: Violet Huang, Ryan Liang, April Wang
 
+# Social Significance:
+The task of scraping social science related books using the Google Books API carries significant social significance and presents valuable opportunities for information mining. By accessing and analyzing a vast collection of books using large scale method, we can explore valuable insights and trends in social science topics acorss years and regions. Through sentiment analysis, we have gained a deeper understanding of the prevailing sentiments, attitudes, and perspectives expressed within these books based on scraped description attributed to the book, shedding light on societal attitudes and opinions on social science issues. Furthermore, employing machine learning techniques for categorization and topic modeling, we extracted insightful thematic information from the data, identifying key themes, trends, and patterns in social science literature. This information can be utilized to inform policy-making, academic research, and social discourse, providing a comprehensive and data-driven understanding of various social science domains. The availability of this vast collection of books through the Google Books API opens up new possibilities for data-driven research and enriches our understanding of the social world.
+
+
 Work Distribution
 # 1. Scalable Data Scraping
 1. Create an open source RDS database using ```'IpRanges': [{'CidrIp': '0.0.0.0/0'}]```
