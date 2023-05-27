@@ -7,7 +7,11 @@ Group Member: Violet Huang, Ryan Liang, April Wang
 The task of scraping social science related books using the Google Books API carries significant social significance and presents valuable opportunities for information mining. By accessing and analyzing a vast collection of books using large scale method, we can explore valuable insights and trends in social science topics acorss years and regions. Through sentiment analysis, we have gained a deeper understanding of the prevailing sentiments, attitudes, and perspectives expressed within these books based on scraped description attributed to the book, shedding light on societal attitudes and opinions on social science issues. Furthermore, employing machine learning techniques for categorization and topic modeling, we extracted insightful thematic information from the data, identifying key themes, trends, and patterns in social science literature. This information can be utilized to inform policy-making, academic research, and social discourse, providing a comprehensive and data-driven understanding of various social science domains. The availability of this vast collection of books through the Google Books API opens up new possibilities for data-driven research and enriches our understanding of the social world.
 
 
-Work Distribution
+# Work Distribution
+- April Wang: Collected data using Google Books API, parallelized with AWS lambda function and step function, stored book information in AWS RDS table
+- Violet Huang: Cleaned Data, performed supervised machine learning prediction task, generate Roberta sentence embedding
+- Ryan Leung: Cleaned Data, employed natural language processing with BERT topic, applied computer vision with Google Cloud API to book cover
+
 # 1. Scalable Data Scraping
 The lambda function can be found [here](https://github.com/macs30123-s23/final-project-final_project_books/blob/main/scraper_lambda.py) and the jupyter notebook on scraping can be found [here](https://github.com/macs30123-s23/final-project-final_project_books/blob/main/scrape_book.ipynb)
 1. Create an open source RDS database using ```'IpRanges': [{'CidrIp': '0.0.0.0/0'}]```
