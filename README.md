@@ -1,5 +1,5 @@
 # final-project-final_project_books
-final-project-final_project_books created by GitHub Classroom
+The presentation slides are in the file [Final Presentation.pdf](https://github.com/macs30123-s23/final-project-final_project_books/blob/main/Final%20Presentation.pdf).
 
 Group Member: Violet Huang, Ryan Liang, April Wang
 
